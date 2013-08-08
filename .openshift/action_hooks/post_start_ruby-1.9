@@ -1,9 +1,13 @@
 #!/bin/bash
 
+echo -e
 echo "Replacing the default Passenger server with Puma"
+
+pushd ${OPENSHIFT_REPO_DIR} > /dev/null
 exec ${HOME}/ruby/bin/control stop
-PUMA_OPTS = "-E production -b tcp://${OPENSHIFT_RUBY_IP}:${OPENSHIFT_RUBY_PORT}"
-nohup bundle exec "rackup config.ru -s puma ${PUMA_OPTS} &> ${OPENSHIFT_DATA_DIR}puma.log &
+
+PUMA_OPTS = "-E production --bind 'tcp://${OPENSHIFT_RUBY_IP}:${OPENSHIFT_RUBY_PORT}'"
+nohup bundle exec "rackup config.ru -s puma ${PUMA_OPTS} &> ${OPENSHIFT_DATA_DIR}puma.log" &
 echo $! > "${OPENSHIFT_DATA_DIR}puma.pid"
 
 exit 0
