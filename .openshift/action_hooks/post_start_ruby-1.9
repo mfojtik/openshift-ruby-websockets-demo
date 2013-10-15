@@ -3,7 +3,8 @@
 echo "Replacing the default Passenger server with Puma"
 
 pushd ${OPENSHIFT_REPO_DIR} > /dev/null
-${HOME}/ruby/bin/control stop &> /dev/null
+
+${HOME}/ruby/bin/control stop
 
 set -e
 
